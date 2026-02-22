@@ -5,6 +5,7 @@ using UnityEngine;
 using Rnd = UnityEngine.Random;
 using Bulbmaps;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class BulbmapsScript : MonoBehaviour
 {
@@ -15,11 +16,6 @@ public class BulbmapsScript : MonoBehaviour
     public GameObject[] BulbObjs;
     public Material[] BulbMats;
     public Light[] BulbLights;
-
-    public GameObject GridParent;
-    public GameObject DoorObj;
-
-    public GameObject SwitchCasing;
     public KMSelectable[] ButtonSels;
 
     private int _moduleId;
@@ -506,5 +502,26 @@ public class BulbmapsScript : MonoBehaviour
                         .Count();
         }
         throw new InvalidOperationException();
+    }
+
+#pragma warning disable 0414
+    private readonly string TwitchHelpMessage = "!{0} press 1 [Press the button with that number.]";
+#pragma warning restore 0414
+
+    private IEnumerator ProcessTwitchCommand(string command)
+    {
+        var m = Regex.Match(command, @"^\s*(?:(press|submit))\s+(?<digit>[1-6])\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (!m.Success)
+            yield break;
+        yield return null;
+        ButtonSels[int.Parse(m.Groups["digit"].Value) - 1].OnInteract();
+        yield break;
+    }
+
+    private IEnumerator TwitchHandleForcedSolve()
+    {
+        yield return null;
+        ButtonSels[_solution].OnInteract();
+        yield break;
     }
 }

@@ -39030,9 +39030,6 @@ MonoBehaviour:
   - {fileID: 108949619277986042}
   - {fileID: 108592438846860138}
   - {fileID: 108185688082282336}
-  GridParent: {fileID: 1801214047108944}
-  DoorObj: {fileID: 0}
-  SwitchCasing: {fileID: 1375756315792946}
   ButtonSels:
   - {fileID: 114210035137516194}
   - {fileID: 114980499695935666}
